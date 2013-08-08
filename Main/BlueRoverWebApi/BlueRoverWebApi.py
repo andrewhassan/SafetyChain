@@ -1,3 +1,9 @@
+"""
+BlueRover Web API Python
+
+This simple class has two functions: to generate authentication tokens and to make requests to the API with the auth header.
+"""
+
 import urlparse
 import hmac
 import urllib
@@ -70,6 +76,8 @@ class Api(object):
             request = urllib2.Request(endpoint_url)
             # Add the authorization header
             request.add_header("Authorization", "BR " + self._token + ":" + signature)
+            print signature
+            print endpoint_url
             response = urllib2.urlopen(request)
             return response.read()
         else:
