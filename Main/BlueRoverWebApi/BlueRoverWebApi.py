@@ -65,8 +65,9 @@ class Api(object):
         
         if not post_data:
             # If there are parameters, add it to the end of the endpoint
+            endpoint_url = url
             if len(parameters) > 0:
-                endpoint_url = url + "?"
+                endpoint_url += "?"
                 joined_params = []
                 for k, v in parameters.items():
                     joined_params.append("%s=%s" % (k, v))
@@ -76,8 +77,6 @@ class Api(object):
             request = urllib2.Request(endpoint_url)
             # Add the authorization header
             request.add_header("Authorization", "BR " + self._token + ":" + signature)
-            print signature
-            print endpoint_url
             response = urllib2.urlopen(request)
             return response.read()
         else:
