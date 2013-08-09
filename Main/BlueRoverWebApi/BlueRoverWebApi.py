@@ -1,7 +1,8 @@
 """
 BlueRover Web API Python
 
-This simple class has two functions: to generate authentication tokens and to make requests to the API with the auth header.
+The BlueRover Python library allows users to call methods in the BlueRover API. It does this by using
+the user's key and token to generate authentication headers for each request.
 """
 
 import urlparse
@@ -12,6 +13,8 @@ import binascii
 import hashlib
 
 class Api(object):
+    
+    ''' PUBLIC METHODS '''
     
     def __init__(self, key, token, base_url = "http://developers.polairus.com"):
         self._base_url = base_url
@@ -31,8 +34,39 @@ class Api(object):
         
     def set_base_url(self, base_url):
         self._base_url = base_url;
+        
+    def event(self, start_time, end_time, page_num):
+        """
+        Calls the /event method in the BlueRover API
+        
+        @param start_time: The starting time (as UNIX timestamp) for the range of events.
+        @param end_time: The ending time (as UNIX timestamp) for the range of events.
+        @param page_num: The page of results you wish to retrieve (paging starts at index 0).
+        
+        @return: A string with the response from the server.
+        """
+        return self.__call_api('/event', {"start_time": start_time, "end_time": end_time, "page": 0}, False)
+    
+    def rfid(self):
+        """
+        Calls the /rfid method in the BlueRover API
+        
+        @return: A string with the response from the server.
+        """
+        return self.__call_api('/rfid', {}, False)
+    
+    def device(self):
+        """
+        Calls the /device method in the BlueRover API
+        
+        @return: A string with the response from the server.
+        """
+        return self.__call_api('/device', {}, False)
 
-    def call_api(self, relative_url, params, post_data = False):
+
+    ''' PRIVATE METHODS '''
+
+    def __call_api(self, relative_url, params, post_data = False):
         """
         Calls the BlueRover API for a specified endpoint.
         

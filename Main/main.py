@@ -94,7 +94,7 @@ if __name__ == "__main__":
         startTime = int(time.time())
         
         # Call API
-        result = api.call_api("/event", {"start_time": startTime - POLLING_DURATION, "end_time": startTime, "page": 0}, False)
+        result = api.event(startTime - POLLING_DURATION, startTime, 0)
         
         # Convert json string to dict
         parsed_dict = json.loads(result)
